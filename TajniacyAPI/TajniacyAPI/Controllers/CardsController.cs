@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
+using TajniacyAPI.DataAccess.Model;
 using TajniacyAPI.Services.Interfaces;
 
 namespace TajniacyAPI.Controllers
@@ -15,6 +19,12 @@ namespace TajniacyAPI.Controllers
             _cardsService = cardsService;
         }
 
+        /// <summary>
+        /// List Word Cards from MongoDB
+        /// </summary>
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<WordCard>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Exception), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetAllCards()
         {
             return Ok(await _cardsService.GetAllCards());

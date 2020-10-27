@@ -4,10 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using TajniacyAPI.DataAccess.Model;
 
-namespace TajniacyAPI.Services.Interfaces
+namespace TajniacyAPI.DataAccess.Repository.Interfaces
 {
-    public interface ICardsService
+    public interface IWordCardsRepo : IMongoRepository<WordCard>
     {
-        Task<List<WordCard>>GetAllCards();
     }
 }
