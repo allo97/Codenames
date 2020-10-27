@@ -1,0 +1,12 @@
+C:\PROGRAMMING\Tajniacy\TajniacyAPI\TajniacyAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\PROGRAMMING\Tajniacy\TajniacyAPI\TajniacyAPI\bin\Debug\netcoreapp3.1\appsettings.json
+C:\PROGRAMMING\Tajniacy\TajniacyAPI\TajniacyAPI\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+C:\PROGRAMMING\Tajniacy\TajniacyAPI\TajniacyAPI\bin\Debug\netcoreapp3.1\TajniacyAPI.exe
+C:\PROGRAMMING\Tajniacy\TajniacyAPI\TajniacyAPI\obj\Debug\netcoreapp3.1\TajniacyAPI.csprojAssemblyReference.cache
+C:\PROGRAMMING\Tajniacy\TajniacyAPI\TajniacyAPI\obj\Debug\netcoreapp3.1\TajniacyAPI.AssemblyInfoInputs.cache
+C:\PROGRAMMING\Tajniacy\TajniacyAPI\TajniacyAPI\obj\Debug\netcoreapp3.1\TajniacyAPI.AssemblyInfo.cs
+C:\PROGRAMMING\Tajniacy\TajniacyAPI\TajniacyAPI\obj\Debug\netcoreapp3.1\TajniacyAPI.RazorTargetAssemblyInfo.cache
+C:\PROGRAMMING\Tajniacy\TajniacyAPI\TajniacyAPI\obj\Debug\netcoreapp3.1\staticwebassets\TajniacyAPI.StaticWebAssets.Manifest.cache
+C:\PROGRAMMING\Tajniacy\TajniacyAPI\TajniacyAPI\obj\Debug\netcoreapp3.1\staticwebassets\TajniacyAPI.StaticWebAssets.xml
+C:\PROGRAMMING\Tajniacy\TajniacyAPI\TajniacyAPI\bin\Debug\netcoreapp3.1\MongoDB.Bson.dll
+C:\PROGRAMMING\Tajniacy\TajniacyAPI\TajniacyAPI\obj\Debug\netcoreapp3.1\TajniacyAPI.csproj.CopyComplete
