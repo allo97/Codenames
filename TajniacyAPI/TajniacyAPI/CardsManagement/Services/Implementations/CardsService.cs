@@ -10,9 +10,9 @@ namespace TajniacyAPI.CardsManagement.Services.Implementations
 {
     public class CardsService : ICardsService
     {
-        private readonly ITajniacyUnitOfWork _tajniacyUnitOfWork;
+        private readonly ICardsUnitOfWork _tajniacyUnitOfWork;
 
-        public CardsService(ITajniacyUnitOfWork tajniacyUnitOfWork)
+        public CardsService(ICardsUnitOfWork tajniacyUnitOfWork)
         {
             _tajniacyUnitOfWork = tajniacyUnitOfWork;
         }

@@ -1,8 +1,8 @@
 ﻿using MongoDB.Driver;
 using System.Threading.Tasks;
 using TajniacyAPI.CardsManagement.DataAccess.Model;
-using TajniacyAPI.CardsManagement.DataAccess.Repository.Base;
 using TajniacyAPI.CardsManagement.DataAccess.Repository.Interfaces;
+using TajniacyAPI.MongoAPI.Implementations;
 
 namespace TajniacyAPI.CardsManagement.DataAccess.Repository.Implementations
 {

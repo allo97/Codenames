@@ -1,4 +1,4 @@
-﻿namespace TajniacyAPI.CardsManagement.DataAccess.Model.Interfaces
+﻿namespace TajniacyAPI.MongoAPI.Interfaces
 {
     public interface IEntity
     {

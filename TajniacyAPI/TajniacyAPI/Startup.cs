@@ -18,6 +18,7 @@ using TajniacyAPI.JWTAuthentication.Entities;
 using TajniacyAPI.JWTAuthentication.Helpers;
 using TajniacyAPI.JWTAuthentication.Services.Implementations;
 using TajniacyAPI.JWTAuthentication.Services.Interfaces;
+using TajniacyAPI.MongoAPI.Implementations;
 
 namespace TajniacyAPI
 {
@@ -88,7 +89,7 @@ namespace TajniacyAPI
 
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
-            services.AddSingleton<ITajniacyUnitOfWork, TajniacyUnitOfWork>();
+            services.AddSingleton<ICardsUnitOfWork, CardsUnitOfWork>();
             services.AddScoped<ICardsService, CardsService>();
         }
 

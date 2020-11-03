@@ -54,7 +54,7 @@ namespace TajniacyAPI.CardsManagement.Controllers
             }
             catch (Exception ex)
             {
-                var errorMessage = "There was an error while trying to list Word Cards from MongoDB";
+                var errorMessage = "There was an error while trying to add card to MongoDB";
                 return BadRequest(errorMessage + "\n" + ex);
             }
         }
@@ -99,6 +99,7 @@ namespace TajniacyAPI.CardsManagement.Controllers
                 return BadRequest(errorMessage + "\n" + ex);
             }
         }
+
         /// <summary>
         /// Call an initialization of basic cards - api/system/init
         /// </summary>

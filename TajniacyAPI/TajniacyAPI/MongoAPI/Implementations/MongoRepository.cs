@@ -2,10 +2,9 @@
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TajniacyAPI.CardsManagement.DataAccess.Model.Interfaces;
-using TajniacyAPI.CardsManagement.DataAccess.Repository.Interfaces;
+using TajniacyAPI.MongoAPI.Interfaces;
 
-namespace TajniacyAPI.CardsManagement.DataAccess.Repository.Base
+namespace TajniacyAPI.MongoAPI.Implementations
 {
     public abstract class MongoRepository<T> : IMongoRepository<T> where T : IEntity
     {

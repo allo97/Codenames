@@ -1,4 +1,4 @@
-﻿namespace TajniacyAPI.JWTAuthentication.Entities
+﻿namespace TajniacyAPI.UserManagement.DataAccess.Model
 {
     public static class Role
     {

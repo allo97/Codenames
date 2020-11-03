@@ -3,19 +3,20 @@ using MongoDB.Driver;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using TajniacyAPI.CardsManagement.DataAccess.Interfaces;
-using TajniacyAPI.CardsManagement.DataAccess.Model;
-using TajniacyAPI.CardsManagement.DataAccess.Repository.Implementations;
-using TajniacyAPI.CardsManagement.DataAccess.Repository.Interfaces;
+using TajniacyAPI.MongoAPI.Implementations;
+using TajniacyAPI.UserManagement.DataAccess.Interfaces;
+using TajniacyAPI.UserManagement.DataAccess.Model;
+using TajniacyAPI.UserManagement.DataAccess.Repository.Implementations;
+using TajniacyAPI.UserManagement.DataAccess.Repository.Interfaces;
 
-namespace TajniacyAPI.CardsManagement.DataAccess.Implementations
+namespace TajniacyAPI.UserManagement.DataAccess.Implementations
 {
-    public class TajniacyUnitOfWork : ITajniacyUnitOfWork, IDisposable
+    public class UsersUnitOfWork : IUsersUnitOfWork, IDisposable
     {
         private readonly IMongoDatabase _mongoDB;
         private readonly IMongoClient _mongoClient;
 
-        public TajniacyUnitOfWork(IOptionsMonitor<MongoSettings> mongoSettings)
+        public UsersUnitOfWork(IOptionsMonitor<MongoSettings> mongoSettings)
         {
             _mongoClient = new MongoClient(mongoSettings.CurrentValue.ConnectionString);
             _mongoDB = _mongoClient.GetDatabase(mongoSettings.CurrentValue.MongoDBName);
@@ -26,9 +27,8 @@ namespace TajniacyAPI.CardsManagement.DataAccess.Implementations
             return _mongoClient.StartSessionAsync(options, cancellationToken);
         }
 
-        private IWordCardsRepo _wordCardsRepo;
-        public IWordCardsRepo WordCardsRepo => _wordCardsRepo ?? (_wordCardsRepo = new WordCardsRepo(_mongoDB.GetCollection<WordCard>("Cards")));
-
+        private IUsersRepo _usersRepo;
+        public IUsersRepo UsersRepo => _usersRepo ?? (_usersRepo = new UsersRepo(_mongoDB.GetCollection<User>("Users")));
 
         #region IDisposable
 
