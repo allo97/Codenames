@@ -1,7 +1,7 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,14 +11,16 @@ using System;
 using System.Text;
 using TajniacyAPI.CardsManagement.DataAccess.Implementations;
 using TajniacyAPI.CardsManagement.DataAccess.Interfaces;
-using TajniacyAPI.CardsManagement.DataAccess.Model;
 using TajniacyAPI.CardsManagement.Services.Implementations;
 using TajniacyAPI.CardsManagement.Services.Interfaces;
-using TajniacyAPI.JWTAuthentication.Entities;
 using TajniacyAPI.JWTAuthentication.Helpers;
 using TajniacyAPI.JWTAuthentication.Services.Implementations;
 using TajniacyAPI.JWTAuthentication.Services.Interfaces;
 using TajniacyAPI.MongoAPI.Implementations;
+using TajniacyAPI.UserManagement.DataAccess.Implementations;
+using TajniacyAPI.UserManagement.DataAccess.Interfaces;
+using TajniacyAPI.UserManagement.Services.Implementations;
+using TajniacyAPI.UserManagement.Services.Interfaces;
 
 namespace TajniacyAPI
 {
@@ -34,12 +36,13 @@ namespace TajniacyAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(x => x.UseInMemoryDatabase("TestDb"));
             services.AddCors(options => options.AddPolicy("AllowAll", builder => builder
                 .SetIsOriginAllowed(isOriginAllowed: _ => true)
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials()));
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.IgnoreNullValues = true);
 
@@ -88,21 +91,16 @@ namespace TajniacyAPI
             });
 
             // configure DI for application services
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthenticateService, AuthenticateService>();
             services.AddSingleton<ICardsUnitOfWork, CardsUnitOfWork>();
             services.AddScoped<ICardsService, CardsService>();
+            services.AddSingleton<IUsersUnitOfWork, UsersUnitOfWork>();
+            services.AddScoped<IUsersService, UsersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // add hardcoded test user to db on startup,  
-            // plain text password is used for simplicity, hashed passwords should be used in production applications
-            context.Users.Add(new User { FirstName = "Admin", LastName = "User", Username = "admin", Password = "admin", Role = Role.Admin });
-            context.Users.Add(new User { FirstName = "Normal", LastName = "User", Username = "user", Password = "user", Role = Role.User });
-            context.Users.Add(new User { FirstName = "Test", LastName = "User", Username = "test", Password = "test", Role = Role.User });
-            context.SaveChanges();
-
             app.UseCors("AllowAll");
 
             if (env.IsDevelopment())

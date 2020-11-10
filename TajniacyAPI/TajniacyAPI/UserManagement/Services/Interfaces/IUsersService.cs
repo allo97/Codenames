@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TajniacyAPI.UserManagement.DataAccess.Model;
+using TajniacyAPI.UserManagement.DataAccess.Model.Dto;
 
 namespace TajniacyAPI.UserManagement.Services.Interfaces
 {
-    public interface IUserService
+    public interface IUsersService
     {
         Task<List<User>> GetAllUsers();
         Task<User> GetUser(string id);

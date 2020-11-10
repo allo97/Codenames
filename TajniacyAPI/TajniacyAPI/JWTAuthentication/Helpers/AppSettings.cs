@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace TajniacyAPI.JWTAuthentication.Helpers
+﻿namespace TajniacyAPI.JWTAuthentication.Helpers
 {
     public class AppSettings
     {

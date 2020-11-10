@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using TajniacyAPI.JWTAuthentication.Entities;
+﻿using System.Text.Json.Serialization;
+using TajniacyAPI.UserManagement.DataAccess.Model;
 
 namespace TajniacyAPI.JWTAuthentication.Models
 {
     public class AuthenticateResponse
     {
-        public int Id { get; set; }
+        public string ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Username { get; set; }
@@ -21,7 +17,7 @@ namespace TajniacyAPI.JWTAuthentication.Models
 
         public AuthenticateResponse(User user, string jwtToken, string refreshToken)
         {
-            Id = user.Id;
+            ID = user.ID;
             FirstName = user.FirstName;
             LastName = user.LastName;
             Username = user.Username;

@@ -2,29 +2,32 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using TajniacyAPI.JWTAuthentication.Entities;
+using System.Threading.Tasks;
 using TajniacyAPI.JWTAuthentication.Models;
 using TajniacyAPI.JWTAuthentication.Services.Interfaces;
+using TajniacyAPI.UserManagement.Services.Interfaces;
 
 namespace TajniacyAPI.JWTAuthentication.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("api/tajniacy/JWTAuthentication/[controller]/[action]")]
-    public class UsersController : ControllerBase
+    public class AuthenticateController : ControllerBase
     {
-        private IUserService _userService;
+        private IAuthenticateService _authService;
+        private IUsersService _usersService;
 
-        public UsersController(IUserService userService)
+        public AuthenticateController(IAuthenticateService authService, IUsersService usersService)
         {
-            _userService = userService;
+            _authService = authService;
+            _usersService = usersService;
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Authenticate([FromBody] AuthenticateRequest model)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest model)
         {
-            var response = _userService.Authenticate(model, IpAddress());
+            var response = await _authService.Authenticate(model, IpAddress());
 
             if (response == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -36,10 +39,10 @@ namespace TajniacyAPI.JWTAuthentication.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult RefreshToken()
+        public async Task<IActionResult> RefreshToken()
         {
             var refreshToken = Request.Cookies["refreshToken"];
-            var response = _userService.RefreshToken(refreshToken, IpAddress());
+            var response = await _authService.RefreshToken(refreshToken, IpAddress());
 
             if (response == null)
                 return Unauthorized(new { message = "Invalid token" });
@@ -50,7 +53,7 @@ namespace TajniacyAPI.JWTAuthentication.Controllers
         }
 
         [HttpPost]
-        public IActionResult RevokeToken([FromBody] RevokeTokenRequest model)
+        public async Task<IActionResult> RevokeToken([FromBody] RevokeTokenRequest model)
         {
             // accept token from request body or cookie
             var token = model.Token ?? Request.Cookies["refreshToken"];
@@ -58,39 +61,15 @@ namespace TajniacyAPI.JWTAuthentication.Controllers
             if (string.IsNullOrEmpty(token))
                 return BadRequest(new { message = "Token is required" });
 
-            var response = _userService.RevokeToken(token, IpAddress());
-
-            if (!response)
-                return NotFound(new { message = "Token not found" });
+            await _authService.RevokeToken(token, IpAddress());
 
             return Ok(new { message = "Token revoked" });
         }
 
-        [Authorize(Roles = Role.Admin)]
-        [HttpGet]
-        public IActionResult GetAllUsers()
-        {
-            var users = _userService.GetAllUsers();
-            return Ok(users);
-        }
-
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetRefreshTokens(string id)
         {
-            var currentUserId = int.Parse(User.Identity.Name);
-            if (id != currentUserId && !User.IsInRole(Role.Admin))
-                return Forbid();
-
-            var user = _userService.GetById(id);
-            if (user == null) return NotFound();
-
-            return Ok(user);
-        }
-
-        [HttpGet("{id}")]
-        public IActionResult GetRefreshTokens(int id)
-        {
-            var user = _userService.GetById(id);
+            var user = await _usersService.GetUser(id);
             if (user == null) return NotFound();
 
             return Ok(user.RefreshTokens);
