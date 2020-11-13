@@ -28,7 +28,10 @@ namespace TajniacyAPI.CardsManagement.DataAccess.Implementations
         }
 
         private IWordCardsRepo _wordCardsRepo;
-        public IWordCardsRepo WordCardsRepo => _wordCardsRepo ?? (_wordCardsRepo = new WordCardsRepo(_mongoDB.GetCollection<WordCard>("Cards")));
+        public IWordCardsRepo WordCardsRepo => _wordCardsRepo ?? (_wordCardsRepo = new WordCardsRepo(_mongoDB.GetCollection<WordCard>("WordCards")));
+        
+        private ISelectionCardsRepo _selectionCardsRepo;
+        public ISelectionCardsRepo SelectionCardsRepo => _selectionCardsRepo ?? (_selectionCardsRepo = new SelectionCardsRepo(_mongoDB.GetCollection<SelectionCard>("SelectionCards")));
 
 
         #region IDisposable

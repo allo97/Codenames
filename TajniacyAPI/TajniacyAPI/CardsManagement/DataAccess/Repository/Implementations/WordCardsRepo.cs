@@ -10,7 +10,7 @@ namespace TajniacyAPI.CardsManagement.DataAccess.Repository.Implementations
     {
         public WordCardsRepo(IMongoCollection<WordCard> collection) : base(collection) { }
 
-        public Task<WordCard> GetWordCardByWord(string word, IClientSessionHandle session = null) => session == null
+        public Task<WordCard> GetByWord(string word, IClientSessionHandle session = null) => session == null
             ? _collection.Find(n => n.Word == word).FirstOrDefaultAsync()
             : _collection.Find(session, n => n.Word == word).FirstOrDefaultAsync();
     }

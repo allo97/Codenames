@@ -11,24 +11,24 @@ using TajniacyAPI.UserManagement.Services.Interfaces;
 
 namespace TajniacyAPI.UserManagement.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/tajniacy/UserManagement/[controller]/[action]")]
     public class UsersController : ControllerBase
     {
-        private readonly IUsersService _usersService;
+        private readonly IUsersService _userService;
         private readonly IMapper _mapper;
 
-        public UsersController(IUsersService usersService, IMapper mapper)
+        public UsersController(IUsersService userService, IMapper mapper)
         {
-            _usersService = usersService;
+            _userService = userService;
             _mapper = mapper;
         }
 
         /// <summary>
         /// List of users
         /// </summary>
-        //[Authorize(Roles = Role.Admin)]
+        [Authorize(Roles = Role.Admin)]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<UserDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(Exception), (int)HttpStatusCode.BadRequest)]
@@ -36,7 +36,7 @@ namespace TajniacyAPI.UserManagement.Controllers
         {
             try
             {
-                return Ok(await _usersService.GetAllUsers());
+                return Ok(_mapper.Map<List<UserDto>>(await _userService.GetAllUsers()));
             }
             catch (Exception ex)
             {
@@ -57,11 +57,11 @@ namespace TajniacyAPI.UserManagement.Controllers
         {
             try
             {
-                //var currentUserId = User.Identity.Name;
-                //if (id != currentUserId && !User.IsInRole(Role.Admin))
-                //    return Forbid();
+                var currentUserId = User.Identity.Name;
+                if (id != currentUserId && !User.IsInRole(Role.Admin))
+                    return Unauthorized(new { message = "Unauthorized"});
 
-                return Ok(await _usersService.GetUser(id));
+                return Ok(_mapper.Map<UserDto>(await _userService.GetUser(id)));
             }
             catch (Exception ex)
             {
@@ -74,6 +74,7 @@ namespace TajniacyAPI.UserManagement.Controllers
         /// Add User to MongoDB
         /// </summary>
         /// <param name="userDto">New user added to MongoDB</param>
+        [AllowAnonymous]
         [HttpPost]
         [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(Exception), (int)HttpStatusCode.BadRequest)]
@@ -81,7 +82,8 @@ namespace TajniacyAPI.UserManagement.Controllers
         {
             try
             {
-                return Ok(await _usersService.AddUser(_mapper.Map<User>(userDto)));
+                var createdUser = await _userService.AddUser(_mapper.Map<User>(userDto));
+                return Ok(_mapper.Map<UserDto>(createdUser));
             }
             catch (Exception ex)
             {
@@ -101,7 +103,12 @@ namespace TajniacyAPI.UserManagement.Controllers
         {
             try
             {
-                return Ok(await _usersService.UpdateUser(_mapper.Map<User>(userDto)));
+                var currentUserId = User.Identity.Name;
+                if (userDto.ID != currentUserId && !User.IsInRole(Role.Admin))
+                    return Unauthorized(new { message = "Unauthorized" });
+
+                var updatedUser = await _userService.UpdateUser(_mapper.Map<User>(userDto));
+                return Ok(_mapper.Map<UserDto>(updatedUser));
             }
             catch (Exception ex)
             {
@@ -121,8 +128,12 @@ namespace TajniacyAPI.UserManagement.Controllers
         {
             try
             {
-                await _usersService.DeleteUser(id);
-                return Ok();
+                var currentUserId = User.Identity.Name;
+                if (id != currentUserId && !User.IsInRole(Role.Admin))
+                    return Unauthorized(new { message = "Unauthorized" });
+
+                await _userService.DeleteUser(id);
+                return Ok("User has been deleted");
             }
             catch (Exception ex)
             {

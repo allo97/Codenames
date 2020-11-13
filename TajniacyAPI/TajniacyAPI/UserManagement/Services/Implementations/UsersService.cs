@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
-using BC = BCrypt.Net.BCrypt;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using TajniacyAPI.JWTAuthentication.Entities;
 using TajniacyAPI.UserManagement.DataAccess.Interfaces;
 using TajniacyAPI.UserManagement.DataAccess.Model;
-using TajniacyAPI.UserManagement.DataAccess.Model.Dto;
 using TajniacyAPI.UserManagement.Services.Interfaces;
+using BC = BCrypt.Net.BCrypt;
 
 namespace TajniacyAPI.UserManagement.Services.Implementations
 {
@@ -30,6 +29,7 @@ namespace TajniacyAPI.UserManagement.Services.Implementations
 
             user.Created = DateTime.UtcNow;
             user.Password = BC.HashPassword(user.Password);
+            user.RefreshTokens = new List<RefreshToken>();
 
             var result = await _userUnitOfWork.UsersRepo.Save(user);
             if (!result)
@@ -69,16 +69,16 @@ namespace TajniacyAPI.UserManagement.Services.Implementations
             if (existingUser == null)
                 throw new Exception($"Can't find card {user.Username} in database.");
 
-            existingUser.Password = BC.HashPassword(user.Password);
+            var mappedUser = _mapper.Map(user, existingUser);
+            mappedUser.Password = BC.HashPassword(mappedUser.Password);
 
-            _mapper.Map(user, existingUser);
-            existingUser.Updated = DateTime.Now;
+            mappedUser.Updated = DateTime.Now;
 
-            var result = await _userUnitOfWork.UsersRepo.Update(existingUser);
+            var result = await _userUnitOfWork.UsersRepo.Update(mappedUser);
             if (!result)
                 throw new Exception($"Can't update card {existingUser.Username} in mongoDB");
 
-            return existingUser;
+            return mappedUser;
         }
     }
 }

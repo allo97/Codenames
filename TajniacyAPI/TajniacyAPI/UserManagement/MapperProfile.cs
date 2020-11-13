@@ -8,7 +8,9 @@ namespace TajniacyAPI.UserManagement
     {
         public MapperProfile()
         {
-            CreateMap<User, UserDto>().ReverseMap()
+            CreateMap<User, UserDto>().
+                 ForMember(dest => dest.Password, opt => opt.Ignore())
+                .ReverseMap()
                 .ForAllMembers(x => x.Condition(
                     (src, dest, prop) =>
                     {
@@ -18,6 +20,9 @@ namespace TajniacyAPI.UserManagement
 
                         // ignore null role
                         if (x.DestinationMember.Name == "Role" && src.Role == null) return false;
+
+                        // ignore null role
+                        //if (x.DestinationMember.Name == "Password") return false;
 
                         return true;
                     }

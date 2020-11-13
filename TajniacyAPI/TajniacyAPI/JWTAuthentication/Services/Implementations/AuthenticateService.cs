@@ -35,7 +35,8 @@ namespace TajniacyAPI.JWTAuthentication.Services.Implementations
             var user = (await _usersService.GetAllUsers()).FirstOrDefault(user => user.Username == model.Username && BC.Verify(model.Password, user.Password));
 
             // return null if user not found
-            if (user == null) return null;
+            if (user == null)
+                throw new Exception("Username or Password is incorrect");
 
             // authentication successful so generate jwt and refresh tokens
             var jwtToken = generateJwtToken(user);
@@ -126,9 +127,9 @@ namespace TajniacyAPI.JWTAuthentication.Services.Implementations
         private async Task<(RefreshToken, User)> getRefreshToken(string token)
         {
             var user = (await _usersService.GetAllUsers()).FirstOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
-            if (user == null) throw new Exception("Invalid token");
+            if (user == null) throw new Exception("There's no user with given token");
             var refreshToken = user.RefreshTokens.FirstOrDefault(x => x.Token == token);
-            if (!refreshToken.IsActive) throw new Exception("Invalid token");
+            if (!refreshToken.IsActive) throw new Exception("Token is not Active!");
             return (refreshToken, user);
         }
     }

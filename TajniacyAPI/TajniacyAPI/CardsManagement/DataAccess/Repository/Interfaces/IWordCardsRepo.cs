@@ -7,6 +7,6 @@ namespace TajniacyAPI.CardsManagement.DataAccess.Repository.Interfaces
 {
     public interface IWordCardsRepo : IMongoRepository<WordCard>
     {
-        Task<WordCard> GetWordCardByWord(string word, IClientSessionHandle session = null);
+        Task<WordCard> GetByWord(string word, IClientSessionHandle session = null);
     }
 }

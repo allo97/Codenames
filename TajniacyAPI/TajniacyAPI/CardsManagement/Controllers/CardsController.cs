@@ -46,7 +46,7 @@ namespace TajniacyAPI.CardsManagement.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(WordCard), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(Exception), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> AddCard([FromBody] string word)
+        public async Task<IActionResult> AddCard(string word)
         { 
             try
             {
@@ -91,7 +91,7 @@ namespace TajniacyAPI.CardsManagement.Controllers
             try
             {
                 await _cardsService.DeleteCard(id);
-                return Ok();
+                return Ok("Card has been deleted");
             }
             catch (Exception ex)
             {
@@ -101,19 +101,19 @@ namespace TajniacyAPI.CardsManagement.Controllers
         }
 
         /// <summary>
-        /// Call an initialization of basic cards - api/system/init
+        /// Call an initialization of basic cards
         /// </summary>
-        /// <param name="setting">Enter "init" to initialize MongoDB</param> 
+        /// <param name="setting">Enter "word" to initialize MongoDB</param> 
         [HttpGet("{setting}")]
         [ProducesResponseType(typeof(BulkWriteResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(Exception), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Get(string setting)
+        public async Task<IActionResult> InitWordCards(string setting)
         {
             try
             {
-                if (setting == "init")
+                if (setting == "word")
                 {
-                    var result = await _cardsService.AddCards();
+                    var result = await _cardsService.InitWordCards();
                     return Ok(result);
                 } else
                 {
@@ -123,6 +123,35 @@ namespace TajniacyAPI.CardsManagement.Controllers
             catch (Exception ex)
             {
                 var errorMessage = "There was an error while trying to list Word Cards from MongoDB";
+                return BadRequest(errorMessage + "\n" + ex);
+            }
+
+        }
+
+        /// <summary>
+        /// Call an initialization of selection cards
+        /// </summary>
+        /// <param name="setting">Enter "select" to initialize MongoDB</param> 
+        [HttpGet("{setting}")]
+        [ProducesResponseType(typeof(BulkWriteResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Exception), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> InitSelectionCards(string setting)
+        {
+            try
+            {
+                if (setting == "select")
+                {
+                    var result = await _cardsService.InitSelectionCards();
+                    return Ok(result);
+                }
+                else
+                {
+                    throw new Exception("Enter init to initialize DB!");
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorMessage = "There was an error while trying to list Selection Cards from MongoDB";
                 return BadRequest(errorMessage + "\n" + ex);
             }
 

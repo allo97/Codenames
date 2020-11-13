@@ -6,5 +6,6 @@ namespace TajniacyAPI.CardsManagement.DataAccess.Interfaces
     public interface ICardsUnitOfWork : IMongoDBUnitOfWork
     {
         IWordCardsRepo WordCardsRepo { get; }
+        ISelectionCardsRepo SelectionCardsRepo { get; }
     }
 }

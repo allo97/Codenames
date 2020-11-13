@@ -70,11 +70,7 @@ namespace TajniacyAPI.MongoAPI.Implementations
                 if (string.IsNullOrWhiteSpace(doc.ID))
                     doc.ID = ObjectId.GenerateNewId().ToString();
 
-                var filter = Builders<T>.Filter.Eq(n => n.ID, doc.ID);
-
-                var replaceOne = new ReplaceOneModel<T>(filter, doc) { IsUpsert = isUpsert };
-
-                bulkOps.Add(replaceOne);
+                bulkOps.Add(new InsertOneModel<T>(doc));
             }
 
             return await (session == null

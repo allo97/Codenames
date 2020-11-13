@@ -11,6 +11,7 @@ namespace TajniacyAPI.CardsManagement.Services.Interfaces
         Task<WordCard> AddCard(string word);
         Task<WordCard> UpdateCard(WordCard wordCard);
         Task DeleteCard(string id);
-        Task<BulkWriteResult> AddCards();
+        Task<BulkWriteResult> InitWordCards();
+        Task<BulkWriteResult> InitSelectionCards();
     }
 }

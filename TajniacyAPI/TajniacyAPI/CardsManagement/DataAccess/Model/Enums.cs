@@ -4,7 +4,7 @@
     {
         Red,
         Blue,
-        Green,
+        Neutral,
         Black
     }
 }
