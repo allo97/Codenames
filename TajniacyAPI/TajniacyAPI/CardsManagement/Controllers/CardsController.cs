@@ -9,8 +9,10 @@ using TajniacyAPI.CardsManagement.Services.Interfaces;
 
 namespace TajniacyAPI.CardsManagement.Controllers
 {
-    [Route("api/tajniacy/CardsManagement/[controller]/[action]")]
     [ApiController]
+    [Route("api/tajniacy/CardsManagement/[controller]/[action]")]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.Forbidden)]
     public class CardsController : ControllerBase
     {
         private readonly ICardsService _cardsService;

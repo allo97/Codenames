@@ -12,9 +12,11 @@ using TajniacyAPI.UserManagement.Services.Interfaces;
 
 namespace TajniacyAPI.JWTAuthentication.Controllers
 {
-    [Authorize]
     [ApiController]
+    [Authorize]
     [Route("api/tajniacy/JWTAuthentication/[controller]/[action]")]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.Forbidden)]
     public class AuthenticateController : ControllerBase
     {
         private IAuthenticateService _authService;

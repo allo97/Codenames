@@ -11,9 +11,11 @@ using TajniacyAPI.UserManagement.Services.Interfaces;
 
 namespace TajniacyAPI.UserManagement.Controllers
 {
-    [Authorize]
     [ApiController]
+    [Authorize]
     [Route("api/tajniacy/UserManagement/[controller]/[action]")]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.Forbidden)]
     public class UsersController : ControllerBase
     {
         private readonly IUsersService _userService;
