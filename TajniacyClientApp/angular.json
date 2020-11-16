@@ -1,0 +1,130 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "tajniacy-app": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/tajniacy-app",
+      "sourceRoot": "projects/tajniacy-app/src",
+      "prefix": "tajniacy",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/tajniacy-app",
+            "index": "projects/tajniacy-app/src/index.html",
+            "main": "projects/tajniacy-app/src/main.ts",
+            "polyfills": "projects/tajniacy-app/src/polyfills.ts",
+            "tsConfig": "projects/tajniacy-app/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/tajniacy-app/src/favicon.ico",
+              "projects/tajniacy-app/src/assets"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "projects/tajniacy-app/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/tajniacy-app/src/environments/environment.ts",
+                  "with": "projects/tajniacy-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "tajniacy-app:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "tajniacy-app:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "tajniacy-app:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tajniacy-app/src/test.ts",
+            "polyfills": "projects/tajniacy-app/src/polyfills.ts",
+            "tsConfig": "projects/tajniacy-app/tsconfig.spec.json",
+            "karmaConfig": "projects/tajniacy-app/karma.conf.js",
+            "assets": [
+              "projects/tajniacy-app/src/favicon.ico",
+              "projects/tajniacy-app/src/assets"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "projects/tajniacy-app/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/tajniacy-app/tsconfig.app.json",
+              "projects/tajniacy-app/tsconfig.spec.json",
+              "projects/tajniacy-app/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/tajniacy-app/e2e/protractor.conf.js",
+            "devServerTarget": "tajniacy-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "tajniacy-app:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "tajniacy-app"
+}
