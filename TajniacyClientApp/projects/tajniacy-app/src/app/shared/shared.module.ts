@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TagListComponent } from './tag-list/tag-list.component';
-import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { RouterModule } from '@angular/router';
+import { TagListComponent } from './tag-list/tag-list.component';
 
 @NgModule({
   declarations: [TagListComponent],
@@ -29,4 +29,4 @@ import { MatCardModule } from '@angular/material/card';
     TagListComponent
   ]
 })
-export class SharedModule { }
+export class SharedModule {}

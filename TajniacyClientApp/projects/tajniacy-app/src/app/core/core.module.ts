@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
-import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
-import { MatToolbarModule } from '@angular/material/toolbar'
-import { MatButtonModule } from '@angular/material/button'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-
-
+import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 
 @NgModule({
   declarations: [MainLayoutComponent],
@@ -20,8 +18,6 @@ import { RouterModule } from '@angular/router';
     MatToolbarModule,
     MatButtonModule
   ],
-  exports: [
-    MainLayoutComponent
-  ]
+  exports: [MainLayoutComponent]
 })
-export class CoreModule { }
+export class CoreModule {}
